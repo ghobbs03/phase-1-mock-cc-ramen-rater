@@ -8,15 +8,12 @@ fetch('http://localhost:3000/ramens')
 
         const div = document.querySelector('#ramen-menu');
         objArray.forEach(ramenObj => {
+            
+
             const img = document.createElement('img');
             img.src = ramenObj.image;
 
-
-            img.addEventListener('click', e => {
-                console.log(ramenObj.name);
-                displayRamenDetails(ramenObj, img);
-
-            })
+            displayRamenDetails(ramenObj, img);
 
 
             //console.log(ramenObj.image)
@@ -49,6 +46,9 @@ document.querySelector('form#new-ramen').addEventListener('submit', e => {
             "Accept": "application/json"
         },
         body: JSON.stringify(formData)
+    }).then(resp => resp.json())
+    .then (obj => {
+        displayRamenDetails(obj, imgElement)
     })
 
 
@@ -56,23 +56,27 @@ document.querySelector('form#new-ramen').addEventListener('submit', e => {
 })
 
 
-function displayRamenDetails(ramenObj ,img){
-    const imgElement = document.querySelector('.detail-image');
-    imgElement.src = img.src;
+function displayRamenDetails(ramenObj, img){
 
-    const nameElement = document.querySelector('.name');
-    nameElement.innerHTML = ramenObj.name;
+    img.addEventListener('click', e => {
+        console.log(ramenObj.name);
+        const imgElement = document.querySelector('.detail-image');
+        imgElement.src = img.src;
 
-    const restaurantElement = document.querySelector('.restaurant')
-    restaurantElement.innerHTML = ramenObj.restaurant;
+        const nameElement = document.querySelector('.name');
+        nameElement.innerHTML = ramenObj.name;
+
+        const restaurantElement = document.querySelector('.restaurant')
+        restaurantElement.innerHTML = ramenObj.restaurant;
 
 
-    const ratingElement = document.querySelector('#rating-display');
-    ratingElement.innerHTML = ramenObj.rating;
+        const ratingElement = document.querySelector('#rating-display');
+        ratingElement.innerHTML = ramenObj.rating;
 
-    const commentElement = document.querySelector('#comment-display');
-    commentElement.innerHTML = ramenObj.comment;
+        const commentElement = document.querySelector('#comment-display');
+        commentElement.innerHTML = ramenObj.comment;
 
+    })
 }
 
 
